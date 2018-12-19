@@ -10,19 +10,19 @@ for (var i=-20; i<60; i++) {
 function createBox(x,y,z) { //hacky coastline
         var colors = [0x111111, 0x111122, 0x112211, 0x122112, 0x110033, 0x112233, 0x331133, 0x112233];
         var boxMaterials = [
-		new THREE.MeshBasicMaterial({color: 0x00aa22}), 
-		new THREE.MeshBasicMaterial({color: 0x00ff22}), 
-		new THREE.MeshBasicMaterial({color: 0x00ee22}), 
-		new THREE.MeshBasicMaterial({color: 0x00ff22}), 
-		new THREE.MeshBasicMaterial({color: 0x00aa22}), 
-		new THREE.MeshBasicMaterial({color: 0x00ff22}), 
+        new THREE.MeshBasicMaterial({color: 0x00aa22}), 
+        new THREE.MeshBasicMaterial({color: 0x00ff22}), 
+        new THREE.MeshBasicMaterial({color: 0x00ee22}), 
+        new THREE.MeshBasicMaterial({color: 0x00ff22}), 
+        new THREE.MeshBasicMaterial({color: 0x00aa22}), 
+        new THREE.MeshBasicMaterial({color: 0x00ff22}), 
 	];
 	var cubeGeometry = new THREE.BoxGeometry(x,y,z);
 	box = new THREE.Mesh(cubeGeometry, boxMaterials);
-    box.rotation.x += Math.random()*Math.PI;
-    box.rotation.z += Math.random()*Math.PI;
+        box.rotation.x += Math.random()*Math.PI;
+        box.rotation.z += Math.random()*Math.PI;
 	return box;
-}
+    }
 
 
 function createFloor(x,y) {
@@ -56,27 +56,26 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
     var state = "normal";
     var water;
     var music_playing = false;    
-	var clock = new THREE.Clock();
-	//var mixer = new THREE.AnimationMixer();
-	var player = new THREE.Mesh();
-	var axis = new THREE.Vector3( 0, 1, 0 );
-	var playerObject;
+    var clock = new THREE.Clock();
+    //var mixer = new THREE.AnimationMixer();
+    var player = new THREE.Mesh();
+    var axis = new THREE.Vector3( 0, 1, 0 );
+    var playerObject;
     var tankerObject;
     var pPlayer = new THREE.Vector3();
-	var aPlayer = new THREE.Vector3( 0, 0,-2 );
-	var aTanker = new THREE.Vector3( 0, 0, 2 );
-	var quat = new THREE.Quaternion();
-	var enemies = [];
-	//var ball = createCube(1);
-	var leftPressed = false;
-	var rightPressed = false;
-	var upPressed = false;
-	var downPressed = false;
-	var jumpPressed = false;
-	var cameraRight = false;
+    var aPlayer = new THREE.Vector3( 0, 0,-2 );
+    var aTanker = new THREE.Vector3( 0, 0, 2 );
+    var quat = new THREE.Quaternion();
+    var enemies = [];
+    var leftPressed = false;
+    var rightPressed = false;
+    var upPressed = false;
+    var downPressed = false;
+    var jumpPressed = false;
+    var cameraRight = false;
     var cameraLeft = false;
     var mouse = new THREE.Vector2();
-	var level = new LevelGenerator(300,300);
+    var level = new LevelGenerator(300,300);
     var caption;
     //audio vars
     var listener;
@@ -86,39 +85,34 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
     
     
     function animateScene() {
-
         requestAnimationFrame(animateScene);
         if (!playerObject) {
             return;
         }
-		pPlayer = new THREE.Vector3(player.position.x, player.position.y , player.position.z);
-		camera.lookAt(player.position);
+        pPlayer = new THREE.Vector3(player.position.x, player.position.y , player.position.z);
+        camera.lookAt(player.position);
 
-		var delta = clock.getDelta();
+        var delta = clock.getDelta();
         if (clock.elapsedTime > 2 && !music_playing) { //hacky hack?
             music.play();
             music_playing = true;
         }
         
-
         //start playing radio log    
         if (clock.elapsedTime > 20 && state == "normal") {
             logg1.play();
             state = "first_warning";
         }
 
-
         //misheard lyrics
         if (clock.elapsedTime > 38 && caption==undefined) {
-
             caption = drawDialog(dialogFrame([" nærme  MÅKENE"]));
             caption.position.z = pPlayer.z + 2*aPlayer.z;
             caption.position.y = 5;
             caption.rotation.y = player.rotation.y+Math.PI;
             caption.position.x = pPlayer.x + 2*aPlayer.x;
             caption.scale.set(0.005,0.005,0.005);
-            scene.add(caption);
-            
+            scene.add(caption);     
         }
 
 
@@ -138,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
             caption.position.x = pPlayer.x + 2*aPlayer.x;
             caption.scale.set(0.005,0.005,0.005);
             scene.add(caption);
-            
         }
         //cut the steering, wildcard woo
         if (state=="happening") {
@@ -147,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
             rightPressed = false;
             x_orientation = x_initial_orientation;
             y_orientation = y_initial_orientation;
-            
         }
 
         if (state=="sinking") {
@@ -161,7 +153,6 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
            }   
         }
         
-
        //impact
        if (state=="happening" && player.position.x > tankerObject.scene.position.x -15 && player.position.z > tankerObject.scene.position.z -15 && 
            player.position.x < tankerObject.scene.position.x + 15 && player.position.z < tankerObject.scene.position.z + 15) {
@@ -177,28 +168,25 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
         }
 
 
-		if (state!="done" && (leftPressed || y_orientation<y_initial_orientation-10)) {
-
-			aPlayer.applyAxisAngle( axis, rot );
+        if (state!="done" && (leftPressed || y_orientation<y_initial_orientation-10)) {
+            aPlayer.applyAxisAngle( axis, rot );
             player.rotation.y += rot;
             tankerObject.scene.rotation.y += rot;
             rotateCamera(rot,0);
-
-		} else if (state!= "done" && (rightPressed || y_orientation>y_initial_orientation+10)) {
-
-			aPlayer.applyAxisAngle( axis, -rot );
+        } 
+	else if (state!= "done" && (rightPressed || y_orientation>y_initial_orientation+10)) {
+            aPlayer.applyAxisAngle( axis, -rot );
             player.rotation.y -= rot;
             tankerObject.scene.rotation.y -= rot;
             rotateCamera(-rot,0);
-        }if (( upPressed || x_orientation<x_initial_orientation)) {
-            
-
+        }
+	if (( upPressed || x_orientation<x_initial_orientation)) {
             player.position.x += aPlayer.x*delta; //plz make a function
-			player.position.y += aPlayer.y*delta;
-			player.position.z += aPlayer.z*delta;
-			camera.position.x += aPlayer.x*delta;
-			camera.position.y += aPlayer.y*delta;
-			camera.position.z += aPlayer.z*delta;
+            player.position.y += aPlayer.y*delta;
+            player.position.z += aPlayer.z*delta;
+            camera.position.x += aPlayer.x*delta;
+            camera.position.y += aPlayer.y*delta;
+            camera.position.z += aPlayer.z*delta;
             if (detectCollide(player)) {            
                 player.position.x -= aPlayer.x;
                 player.position.y -= aPlayer.y*delta;
@@ -207,14 +195,14 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
                 camera.position.y -= aPlayer.y*delta;
                 camera.position.z -= aPlayer.z*delta;
             }
-	    }
+	}
         else if (downPressed) {
-			player.position.x -= aPlayer.x*delta;
-			player.position.y -= aPlayer.y*delta;
-			player.position.z -= aPlayer.z*delta;
-			camera.position.x -= aPlayer.x*delta;
-			camera.position.y -= aPlayer.y*delta;
-			camera.position.z -= aPlayer.z*delta;
+            player.position.x -= aPlayer.x*delta;
+            player.position.y -= aPlayer.y*delta;
+            player.position.z -= aPlayer.z*delta;
+            camera.position.x -= aPlayer.x*delta;
+            camera.position.y -= aPlayer.y*delta;
+            camera.position.z -= aPlayer.z*delta;
             if (detectCollide(player)) {   
                 player.position.x += aPlayer.x*delta;
                 player.position.y += aPlayer.y*delta;
@@ -224,34 +212,27 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
                 camera.position.z += aPlayer.z*delta;
             }
         }
-        if (mixer != null) {
-			mixer.update(delta);
-            for (var i=0;i<enemies.length;i++) {
-                enemies[i][0].update(delta);
-            }
-        }	
-
         renderScene();
     }
 
-	function rotateCamera(x,y) {
-		var pCamera = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
-		quat.setFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), x);
-		var origin = pCamera.clone();
-		origin.sub(pPlayer);
-		origin.applyQuaternion(quat);
-		origin.add(pPlayer);
-		pCamera = origin;
-		quat.setFromAxisAngle( new THREE.Vector3( 1, 0, 0), y);
-		origin = pCamera.clone();
-		origin.sub(pPlayer);
-		origin.applyQuaternion(quat);
-		origin.add(pPlayer);
+    function rotateCamera(x,y) {
+        var pCamera = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+        quat.setFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), x);
+        var origin = pCamera.clone();
+        origin.sub(pPlayer);
+        origin.applyQuaternion(quat);
+        origin.add(pPlayer);
         pCamera = origin;
-		camera.position.x = pCamera.x;
-		camera.position.y = pCamera.y;
-		camera.position.z = pCamera.z;
-	}
+        quat.setFromAxisAngle( new THREE.Vector3( 1, 0, 0), y);
+        origin = pCamera.clone();
+        origin.sub(pPlayer);
+        origin.applyQuaternion(quat);
+        origin.add(pPlayer);
+        pCamera = origin;
+        camera.position.x = pCamera.x;
+        camera.position.y = pCamera.y;
+        camera.position.z = pCamera.z;
+    }
 
     function detectCollide(unit) {
        for (var i=1; i<level.level.length; i++) {
@@ -260,51 +241,45 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
                    console.log("CRASHING");
                    return true;
                }
-           }
+            }
        }
-       
        return false;
     }
 		
-	function createPlayer(x,y,z) {
-		var loader = new THREE.GLTFLoader();
-		loader.load( 'model/nyhelge/KNM-Helge.gltf', function ( gltf ) {
-
-			playerObject = gltf;
-			player = gltf.scene;
+    function createPlayer(x,y,z) {
+        var loader = new THREE.GLTFLoader();
+        loader.load( 'model/nyhelge/KNM-Helge.gltf', function ( gltf ) {
+            playerObject = gltf;
+            player = gltf.scene;
             player.material = new THREE.MeshPhongMaterial({color: 0x555555});
-			player.name = "player";
-			player.rotation.y += Math.PI;
-			player.position.set(x,y,z);
-			player.scale.set(0.9,0.9,0.9);
-			scene.add( player);
-			mixer = new THREE.AnimationMixer(player);
-			}, undefined, function ( error ) {
-
-						console.error( error );
-		});
-	}
+            player.name = "player";
+            player.rotation.y += Math.PI;
+            player.position.set(x,y,z);
+            player.scale.set(0.9,0.9,0.9);
+            scene.add( player);
+            mixer = new THREE.AnimationMixer(player);
+            }, undefined, function ( error ) {
+       		console.error( error );
+        });
+    }
 	
-	function createTanker() {
-		var loader = new THREE.GLTFLoader();
-		loader.load( 'model/tank/tanker-sola.gltf', function ( gltf ) {
-
-			tankerObject = gltf;
-			tankerObject.scene.rotation.y -= Math.PI/12;
-			tankerObject.scene.scale.set(2,2,2);
-			}, undefined, function ( error ) {
-
-						console.error( error );
-		});
+    function createTanker() {
+        var loader = new THREE.GLTFLoader();
+        loader.load( 'model/tank/tanker-sola.gltf', function ( gltf ) {
+            tankerObject = gltf;
+            tankerObject.scene.rotation.y -= Math.PI/12;
+            tankerObject.scene.scale.set(2,2,2);
+	    }, undefined, function ( error ) {
+                console.error( error );
+        });
     }
 
     function spawnTanker(x,y,z) {
-		tankerObject.scene.position.set(x,y,z);
-	    scene.add( tankerObject.scene);
+        tankerObject.scene.position.set(x,y,z);
+        scene.add( tankerObject.scene);
     }
 
     function init_water() {
-
         var waterG = new THREE.PlaneBufferGeometry(600,600);
         water = new THREE.Water(waterG, {
             color: "#0000ad",
@@ -318,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
         scene.add(water);
     }
 
-	function dialogFrame(dialog_obj) { 
+    function dialogFrame(dialog_obj) { 
         var frame = document.createElement('canvas');
         var ctx = frame.getContext('2d');
         
@@ -327,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
         ctx.font = 'Italic 100px Arial';
         ctx.fillStyle = "grey";
         ctx.fillRect(5, 5, frame.width-10, frame.height-10)
-            ctx.fillStyle = "white";
+        ctx.fillStyle = "white";
         for (var i=0; i<dialog_obj.length; i++) {
             ctx.fillText(dialog_obj[i], 10, (110*i)+100 );
         }
@@ -344,14 +319,12 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
     }
 
     function startScene(player, level) {
-
         var canvas = document.getElementById('canvas');
         render = new THREE.WebGLRenderer({antialias: true});
-		render.gammaOutput = true;
+        render.gammaOutput = true;
         render.gammaFactor = 2.2;
         render.setPixelRatio(window.devicePixelRatio);
         render.setClearColor(0x000044, 1);
-
         var canvasWidth = canvas.getAttribute('width');
         var canvasHeight = canvas.getAttribute('height');
         render.setSize(canvasWidth, canvasHeight);
@@ -431,24 +404,23 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
     function renderScene() {
         render.render(scene, camera);
     }
-	
 
-	document.addEventListener("keydown",keydown);
-	function keydown(e){
-		//alert(e.which);
-		if (e.which == 65) {
-			leftPressed = true;
-		}
-		else if (e.which == 68) {
-			rightPressed = true;
-		}
-		else if (e.which == 87) {
 
-			upPressed = true;
-		}
-		else if (e.which == 83) {
-			downPressed = true;
-		}
+    document.addEventListener("keydown",keydown);
+    function keydown(e){
+        //alert(e.which);
+        if (e.which == 65) {
+            leftPressed = true;
+        }
+        else if (e.which == 68) {
+            rightPressed = true;
+        }
+        else if (e.which == 87) {
+            upPressed = true;
+        }
+        else if (e.which == 83) {
+            downPressed = true;
+        }
         else if (e.which == 32) {
             jumpPressed = true;
         }        
@@ -458,64 +430,60 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
         else if (e.which == 81) {
             cameraLeft = true;
         }        
-	}
-
-	document.addEventListener("keyup",keyup);
-
-    window.addEventListener("mousemove", onMouseMove, false);
-    function onMouseMove(e) {
-        
-        mouse.x = (e.clientX/window.innerWidth)*2-1;
-        mouse.y = -(e.clientY/window.innerHeight)*2+1;
-
     }
 
-	function keyup (e){
-			if (e.which == 65) {
-				leftPressed = false;
-			}
-			else if (e.which == 68) {
-				rightPressed = false;
-			}
-            else if (e.which == 87) {
-				upPressed = false;
-			}
-			else if (e.which == 83) {
-				downPressed = false;
-			} else if (e.which == 32) {
-                jumpPressed = false;
-            }        
+    document.addEventListener("keyup",keyup);
+
+    window.addEventListener("mousemove", onMouseMove, false);
+    function onMouseMove(e) {    
+        mouse.x = (e.clientX/window.innerWidth)*2-1;
+        mouse.y = -(e.clientY/window.innerHeight)*2+1;
+    }
+
+    function keyup (e){
+        if (e.which == 65) {
+            leftPressed = false;
+        }
+        else if (e.which == 68) {
+            rightPressed = false;
+        }
+        else if (e.which == 87) {
+            upPressed = false;
+        }
+        else if (e.which == 83) {
+            downPressed = false;
+	} else if (e.which == 32) {
+            jumpPressed = false;
+        }        
         else if (e.which == 69) {
             cameraRight = false;
         }        
         else if (e.which == 81) {
             cameraLeft = false;
         }        
-	}
+    }
 	
 
     //REMOVE THIS? YES YES
-	var x_initial_orientation = 0;
-	var x_orientation = 0;
-	var y_initial_orientation = 0;
-	var y_orientation = 0;
-	var z_initial_orientation = 0;
-	var z_orientation = 0;
-	window.addEventListener("deviceorientation", updateOrientation, true);
-	function updateOrientation(e) {
-		if (x_initial_orientation==0) {
-			z_initial_orientation = e.alpha; //twist
-			x_initial_orientation = e.beta; //forth
-			y_initial_orientation = e.gamma; //
-		}
-		z_orientation = e.alpha;
-		x_orientation = e.beta;
-		y_orientation = e.gamma;
-		
+    var x_initial_orientation = 0;
+    var x_orientation = 0;
+    var y_initial_orientation = 0;
+    var y_orientation = 0;
+    var z_initial_orientation = 0;
+    var z_orientation = 0;
+    window.addEventListener("deviceorientation", updateOrientation, true);
+    function updateOrientation(e) {
+        if (x_initial_orientation==0) {
+            z_initial_orientation = e.alpha; //twist
+            x_initial_orientation = e.beta; //forth
+            y_initial_orientation = e.gamma; //
 	}
+        z_orientation = e.alpha;
+        x_orientation = e.beta;
+        y_orientation = e.gamma;
+    }
 
     startScene(player, level);
     animateScene();
-	renderScene();
-    
+    renderScene();
 });
