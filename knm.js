@@ -144,8 +144,8 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
 
         if (state=="sinking") {
             if (player.rotation.z < Math.PI/3) {
-                player.rotation.z += 1*delta;
-                player.position.y -= 0.2*delta;
+                player.rotation.z += 0.015;
+                player.position.y -= 0.006;
                 aPlayer = new THREE.Vector3(0,0,0);
            }
             else {
