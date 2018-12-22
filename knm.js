@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
         var welcome = drawDialog(dialogFrame(["Hei og velkommen", "til havs", "","WASD for å styre Helge","Q og E styrer kamera", "Eller snu på telefonen", "(eksperimentell støtte)"]));
         welcome.position.z = -3;
         welcome.position.y = 4;
-        welcome.position.x = -10;
+        welcome.position.x = -8;
         welcome.rotation.y += Math.PI/6;
         welcome.scale.set(0.005,0.005,0.005);
         scene.add(welcome);
