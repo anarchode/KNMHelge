@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
         scene.add (sun);
         scene.add(camera);
         init_water();
-        var welcome = drawDialog(dialogFrame(["Hei og velkommen", "til havs", "","WASD for å styre Helge","Q og E styrer kamera", "Eller snu på telefonen", "(eksperimentell støtte)]));
+        var welcome = drawDialog(dialogFrame(["Hei og velkommen", "til havs", "","WASD for å styre Helge","Q og E styrer kamera", "Eller snu på telefonen", "(eksperimentell støtte)"]));
         welcome.position.z = -3;
         welcome.position.y = 6;
         welcome.position.x = -10;
