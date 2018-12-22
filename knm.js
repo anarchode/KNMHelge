@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
         init_water();
         var welcome = drawDialog(dialogFrame(["Hei og velkommen", "til havs", "","WASD for å styre Helge","Q og E styrer kamera", "Eller snu på telefonen", "(eksperimentell støtte)"]));
         welcome.position.z = -3;
-        welcome.position.y = 6;
+        welcome.position.y = 4;
         welcome.position.x = -10;
         welcome.rotation.y += Math.PI/6;
         welcome.scale.set(0.005,0.005,0.005);
@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
 
         var welcome2 = drawDialog(dialogFrame(["Dette er ikke morsomt"]));
         welcome2.position.z = -20;
-        welcome2.position.y = 5;
+        welcome2.position.y = 4;
         welcome2.position.x = 10;
         welcome2.rotation.y -= Math.PI/5;
         welcome2.scale.set(0.005,0.005,0.005);
