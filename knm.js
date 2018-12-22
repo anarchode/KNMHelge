@@ -144,8 +144,8 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
 
         if (state=="sinking") {
             if (player.rotation.z < Math.PI/3) {
-                player.rotation.z += 0.015;
-                player.position.y -= 0.006;
+                player.rotation.z += 0.0015*delta;
+                player.position.y -= 0.0006*delta;
                 aPlayer = new THREE.Vector3(0,0,0);
            }
             else {
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function(event) { //is this the we
             camera.position.y += aPlayer.y*delta;
             camera.position.z += aPlayer.z*delta;
             if (detectCollide(player)) {            
-                player.position.x -= aPlayer.x;
+                player.position.x -= aPlayer.x*delta;
                 player.position.y -= aPlayer.y*delta;
                 player.position.z -= aPlayer.z*delta;
                 camera.position.x -= aPlayer.x*delta;
